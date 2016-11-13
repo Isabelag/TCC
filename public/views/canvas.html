@@ -1,7 +1,10 @@
+<div class="alert alert-info" role="alert" ng-if="clickOnDrawCanvas">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span ng-bind="infoMessage"></span>
+</div>
 <div class="col-md-12 canvasButton">
 	<button class="btn btn-default" ng-click="drawCanvas()">Click here to plot the pixels.</button>	
 </div>
-
 <div class="col-md-11">	
 	<div class="col-md-4 divCentral" ng-repeat="canvas in canvasMatrixFromInput track by $index" id="{{setDivId($index)}}" ng-click="sortCanvas($index)">
 		<p id="{{setParagraphId($index)}}" ng-bind="getParagraphTitle($index)"></p>

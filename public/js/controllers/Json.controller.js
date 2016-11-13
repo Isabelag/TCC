@@ -4,7 +4,7 @@ angular.module('JsonCtrl', []).controller('JsonController', function($scope, Jso
 	$scope.errorMessage;
 	$scope.sucessMessage = null;
 	$scope.setJson = setJson;
-	$scope.expectedFormat = 'JSON expected format: [["Title", numeric_value1, numeric_value2],["Title 02", numeric_value3]]';
+	$scope.expectedFormat = 'JSON expected format: [["Title", value1, value2],["Title 2", value3]]';
 
 	function setJson(){
 		try{

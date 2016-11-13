@@ -3,6 +3,10 @@ body { padding-top:30px; }
 .divCentral{
 	min-height: 170px;
 }
+
+.divCentral:hover{
+	cursor:pointer;
+}
 .canvas{
 	width: 300px;
 	height: 300px;

@@ -5,11 +5,15 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	$scope.canvasMatrixFromInput = JsonService.getJson();
 	$scope.canvasScaleMaxValue = 0;
 	$scope.canvasScaleMinValue = 0;
+	$scope.clickOnDrawCanvas = false;
+	$scope.infoMessage = null;
 	
 	/*
 	*  Private Variables
 	*/
 	var canvasMatrix = $scope.canvasMatrixFromInput;
+	var INFO = 'Click on the canvas to sort it.';
+	var canClick = false;
 
 	/*
 	*  Public Methods
@@ -38,15 +42,22 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 
 	function drawCanvas(){
 		var index = 0;
-		_.each(canvasMatrix, function(current){
-			var canvas = document.getElementById('canvas' + index);
-			getCoordinates(index, canvasMatrix[index], 'create', null);
-			index++;
-		});
+		var pageLoad = document.getElementById('canvas0');
+		if(pageLoad){
+			_.each(canvasMatrix, function(current){
+				var canvas = document.getElementById('canvas' + index);
+				getCoordinates(index, canvasMatrix[index], 'create', null);
+				index++;
+			});
+
+			$scope.clickOnDrawCanvas = true;
+			$scope.infoMessage = INFO;
+			canClick = true;
+		}
 	}
 
 	function sortCanvas(index){
-		if(index >= 0){
+		if(index >= 0 && canClick){
 			var canvas = document.getElementById('canvas'+index);
 			if(canvas){
 				var context = canvas.getContext("2d");
@@ -54,7 +65,7 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 				context.clearRect(0, 0, canvas.width, canvas.height);
             	getCoordinates(index, sortedList, 'update', context);
 
-            	createScale(index);	
+            	createScale(index);
 			}
 		}
 	}
@@ -87,9 +98,6 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 
 		maxValue = CanvasService.calculateElementColor(canvasMaxMinMap.max, index);
 		minValue = CanvasService.calculateElementColor(canvasMaxMinMap.min, index);
-
-		console.log('service-----------> element: ' + canvasMaxMinMap.max + ' color: ' + maxValue);
-		console.log('service-----------> element: ' + canvasMaxMinMap.min + ' color: ' + minValue);
 
 		$scope.canvasScaleMaxValue = canvasMaxMinMap.max;
 		$scope.canvasScaleMinValue = canvasMaxMinMap.min;

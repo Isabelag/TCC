@@ -66,7 +66,7 @@ angular.module('CanvasService', [])
 
                 color = _.round(150 * (current - minNumber)/(maxNumber - minNumber));    
             }
-            
+
             return color;
         }
 
@@ -159,7 +159,6 @@ angular.module('CanvasService', [])
                         }
 
                         var color = self.calculateElementColor(current, listIndex);
-                        console.log('service-----------> element: ' + current + ' color: ' + color);
                         self.plotPixel(context, x, y, color);
                 });
             }
