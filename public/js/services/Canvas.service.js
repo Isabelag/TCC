@@ -1,6 +1,8 @@
 angular.module('CanvasService', [])
     .service('CanvasService', function () {
-        var CANVAS_SIZE = 60;
+        var CANVAS_SIZE = 150;
+        var canvasMaxMinMap = [];
+
         var self = this;
 
         self.calculateElementColor = calculateElementColor;
@@ -8,19 +10,64 @@ angular.module('CanvasService', [])
         self.getCoordinates = getCoordinates;
         self.getMaxValue = getMaxValue;
         self.getMinValue = getMinValue;
+        self.getStringNumber = getStringNumber;
+        self.filterList = filterList;
+        self.getCanvasMaxMinMap = getCanvasMaxMinMap;
 
-        function getMaxValue(numericList){
-            return _.max(numericList);
+        function getCanvasMaxMinMap(listIndex){
+            return canvasMaxMinMap[listIndex];
         }
 
-        function getMinValue(numericList){
-            return _.min(numericList);
+        function filterList(listToBeFiltered){
+            var filteredList = [];
+                var i = 1;
+                var j = 0;
+                for(i = 1, j = 0; i<listToBeFiltered.length; i++, j++){
+                    filteredList[j] = listToBeFiltered[i];
+                }
+            return filteredList;
         }
 
-        function calculateElementColor(current, canvasList){
-            var maxNumber = _.max(canvasList);
-            var minNumber = _.min(canvasList);
-            return _.round(150 * (current - minNumber)/(maxNumber - minNumber));
+        function getMaxValue(filteredList){
+            return _.max(filteredList);
+        }
+
+        function getMinValue(filteredList){
+            return _.min(filteredList);
+        }
+
+        function getStringNumber(stringToBeConverted){
+            var i = 0;
+            var stringLength = stringToBeConverted.length;
+            var stringSum = 0;
+
+            for (i = 0; i < stringLength; i++) {
+                stringSum += stringToBeConverted.charCodeAt(i);
+            }
+
+            return _.toInteger(stringSum/stringLength);
+        }
+
+        function calculateElementColor(current, listIndex){
+            var maxNumber = canvasMaxMinMap[listIndex].max;
+            var minNumber = canvasMaxMinMap[listIndex].min;
+            var color = 0;
+
+            if(maxNumber != minNumber){
+                if(!_.isNumber(maxNumber)){
+                maxNumber = self.getStringNumber(maxNumber);
+                }
+                if(!_.isNumber(minNumber)){
+                    minNumber = self.getStringNumber(minNumber);
+                }
+                if(!_.isNumber(current)){
+                    current = self.getStringNumber(current);
+                }
+
+                color = _.round(150 * (current - minNumber)/(maxNumber - minNumber));    
+            }
+            
+            return color;
         }
 
         function plotPixel(context, x, y, color){
@@ -28,27 +75,22 @@ angular.module('CanvasService', [])
             context.fillRect(x, y, 1, 1);
         }
 
-        function getCoordinates(index, canvasList, type, context){
-                var canvasListOnlyNumber = canvasList;
-
-                var maxElement = _.max(canvasListOnlyNumber);
-                var minElement = _.min(canvasListOnlyNumber);
-
+        function getCoordinates(listIndex, canvasList, type, context){
                 if(type === 'create'){
-                    var canvas = document.getElementById('canvas' + index);
-                    canvas.width = 120;
-                    canvas.height = 120;
+                    var canvas = document.getElementById('canvas' + listIndex);
+                    canvas.width = CANVAS_SIZE*2;
+                    canvas.height = CANVAS_SIZE*2;
                     context = canvas.getContext('2d');
                 }
 
-                /*
-                if(tipo === 'update'){
-                    createEscala(maiorElemento, menorElemento);
-                }
-                */
-                    
-                var x = Math.round(CANVAS_SIZE);
-                var y = Math.round(CANVAS_SIZE);
+                var filteredList = self.filterList(canvasList);
+                var maxValue = self.getMaxValue(filteredList);
+                var minValue = self.getMinValue(filteredList);
+
+                canvasMaxMinMap[listIndex] = {max: maxValue, min: minValue};
+
+                var x = CANVAS_SIZE;
+                var y = CANVAS_SIZE;
 
                 var addX = true;
                 var addY = false;
@@ -56,68 +98,69 @@ angular.module('CanvasService', [])
                 var internalCont = 1;
                 var iteration = 0;
 
-                _.each(canvasListOnlyNumber, function(current){
-                    if(iteration !== 0){
-                        if(iteration % 2 !== 0){
-                            if(addX){
-                                if(internalCont == 1 && iteration != 1){
-                                    x = y + 1;
-                                    internalCont++;
-                                }else if(internalCont < iteration){
-                                    x = x + 1;
-                                    internalCont++;
-                                }else if(internalCont === iteration){
-                                    x = x +1;
-                                    internalCont = 1;
-                                    addX = false;
-                                    addY = true;
+                _.each(filteredList, function(current){
+                        if(iteration !== 0){
+                            if(iteration % 2 !== 0){
+                                if(addX){
+                                    if(internalCont == 1 && iteration != 1){
+                                        x = y + 1;
+                                        internalCont++;
+                                    }else if(internalCont < iteration){
+                                        x = x + 1;
+                                        internalCont++;
+                                    }else if(internalCont === iteration){
+                                        x = x +1;
+                                        internalCont = 1;
+                                        addX = false;
+                                        addY = true;
+                                    }
+                                }else{
+                                    if(internalCont < iteration){
+                                        y = y + 1;
+                                        internalCont++;
+                                    }else if(internalCont === iteration){
+                                        y = y + 1;
+                                        internalCont = 1;
+                                        addX = true;
+                                        addY = false;
+                                    }
                                 }
                             }else{
-                                if(internalCont < iteration){
-                                    y = y + 1;
-                                    internalCont++;
-                                }else if(internalCont === iteration){
-                                    y = y + 1;
-                                    internalCont = 1;
-                                    addX = true;
-                                    addY = false;
-                                }
+                                if(addX){
+                                    if(internalCont == 1 && iteration != 1){
+                                        x = y - 1;
+                                        internalCont++;
+                                    }else if(internalCont < iteration){
+                                        x = x - 1;
+                                        internalCont++;
+                                    }else if(internalCont === iteration){
+                                        x = x - 1;
+                                        internalCont = 1;
+                                        addX = false;
+                                        addY = true;
+                                    }
+                                }else{
+                                    if(internalCont < iteration){
+                                        y = y - 1;
+                                        internalCont++;
+                                    }else if(internalCont === iteration){
+                                        y = y - 1;
+                                        internalCont = 1;
+                                        addX = true;
+                                        addY = false;
+                                    }
+                                }   
+                            }
+                            if(x===y){
+                                iteration++;
                             }
                         }else{
-                            if(addX){
-                                if(internalCont == 1 && iteration != 1){
-                                    x = y - 1;
-                                    internalCont++;
-                                }else if(internalCont < iteration){
-                                    x = x - 1;
-                                    internalCont++;
-                                }else if(internalCont === iteration){
-                                    x = x - 1;
-                                    internalCont = 1;
-                                    addX = false;
-                                    addY = true;
-                                }
-                            }else{
-                                if(internalCont < iteration){
-                                    y = y - 1;
-                                    internalCont++;
-                                }else if(internalCont === iteration){
-                                    y = y - 1;
-                                    internalCont = 1;
-                                    addX = true;
-                                    addY = false;
-                                }
-                            }   
-                        }
-                        if(x===y){
                             iteration++;
                         }
-                    }else{
-                        iteration++;
-                    }
 
-                    var color = self.calculateElementColor(current, canvasListOnlyNumber);
-                    self.plotPixel(context, x, y, color);
+                        var color = self.calculateElementColor(current, listIndex);
+                        console.log('service-----------> element: ' + current + ' color: ' + color);
+                        self.plotPixel(context, x, y, color);
                 });
             }
 
@@ -126,6 +169,8 @@ angular.module('CanvasService', [])
             plotPixel: self.plotPixel,
             getCoordinates: self.getCoordinates,
             getMaxValue: self.getMaxValue,
-            getMinValue: self.getMinValue
+            getMinValue: self.getMinValue,
+            filterList: self.filterList,
+            getCanvasMaxMinMap: self.getCanvasMaxMinMap
         };
 });

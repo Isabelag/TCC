@@ -19,6 +19,7 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	$scope.setParagraphId = setParagraphId;
 	$scope.drawCanvas = drawCanvas;
 	$scope.sortCanvas = sortCanvas;
+	$scope.getParagraphTitle = getParagraphTitle;
 
 	/*
 	*  Public Methods - Implementation
@@ -39,9 +40,7 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 		var index = 0;
 		_.each(canvasMatrix, function(current){
 			var canvas = document.getElementById('canvas' + index);
-			var canvasListOnlyNumber = filterOnlyNumbers(index);
-			getCoordinates(index, canvasListOnlyNumber, 'create', null);
-			$scope.paragraphTitle = canvasMatrix[index][0];
+			getCoordinates(index, canvasMatrix[index], 'create', null);
 			index++;
 		});
 	}
@@ -51,13 +50,17 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 			var canvas = document.getElementById('canvas'+index);
 			if(canvas){
 				var context = canvas.getContext("2d");
-            	var sortedNumericList = _.sortBy(filterOnlyNumbers(index));
+            	var sortedList = _.sortBy(canvasMatrix[index]);
 				context.clearRect(0, 0, canvas.width, canvas.height);
-            	getCoordinates(index, sortedNumericList, 'update', context);
+            	getCoordinates(index, sortedList, 'update', context);
 
             	createScale(index);	
 			}
 		}
+	}
+
+	function getParagraphTitle(index){
+		return canvasMatrix[index][0];
 	}
 
 	/*
@@ -74,22 +77,26 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	}
 
 	function createScale(index){
+		var maxValue = 0;
+		var minValue = 0;
+
 		var canvasGradient = document.getElementById("canvasScale");
 		var context = canvasGradient.getContext("2d");
 
+		var canvasMaxMinMap = CanvasService.getCanvasMaxMinMap(index);
+
+		maxValue = CanvasService.calculateElementColor(canvasMaxMinMap.max, index);
+		minValue = CanvasService.calculateElementColor(canvasMaxMinMap.min, index);
+
+		console.log('service-----------> element: ' + canvasMaxMinMap.max + ' color: ' + maxValue);
+		console.log('service-----------> element: ' + canvasMaxMinMap.min + ' color: ' + minValue);
+
+		$scope.canvasScaleMaxValue = canvasMaxMinMap.max;
+		$scope.canvasScaleMinValue = canvasMaxMinMap.min;
+
 		var finalGradient = context.createLinearGradient(0, 0, 0, 255);
-		var numericList = filterOnlyNumbers(index);
-		var maxValue = CanvasService.getMaxValue(numericList);
-		var minValue = CanvasService.getMinValue(numericList);
-
-		$scope.canvasScaleMaxValue = maxValue;
-		$scope.canvasScaleMinValue = minValue;
-
-		var maxColor = 'rgb(0,0,' + maxValue + ')';
-		var minColor = 'rgb(0,0,' + minValue + ')';
-
-		finalGradient.addColorStop(0, minColor);
-		finalGradient.addColorStop(1, maxColor);
+		finalGradient.addColorStop(0, 'rgb(1,1,' + maxValue + ')');
+		finalGradient.addColorStop(1, 'rgb(1,1,' + minValue + ')');
 
 		context.fillStyle = finalGradient;
 		context.fillRect(0, 0, 50, 500);
