@@ -61,9 +61,8 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 			var canvas = document.getElementById('canvas'+index);
 			if(canvas){
 				var context = canvas.getContext("2d");
-            	var sortedList = _.sortBy(canvasMatrix[index]);
 				context.clearRect(0, 0, canvas.width, canvas.height);
-            	getCoordinates(index, sortedList, 'update', context);
+            	getCoordinates(index, canvasMatrix[index], 'update', context);
 
             	createScale(index);
 			}
