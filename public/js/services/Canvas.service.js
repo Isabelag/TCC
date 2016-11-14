@@ -70,8 +70,10 @@ angular.module('CanvasService', [])
             return color;
         }
 
-        function plotPixel(context, x, y, color){
-            context.fillStyle = "rgb(" + 1 + "," + 1 + "," + color + ")";
+        function plotPixel(context, x, y, color, listIndex){
+            var maxColor = self.calculateElementColor(canvasMaxMinMap[listIndex].max, listIndex);
+            var minColor = self.calculateElementColor(canvasMaxMinMap[listIndex].min, listIndex);
+            context.fillStyle = "rgb(" + maxColor + "," + minColor + "," + color + ")";
             context.fillRect(x, y, 1, 1);
         }
 
@@ -159,7 +161,7 @@ angular.module('CanvasService', [])
                         }
 
                         var color = self.calculateElementColor(current, listIndex);
-                        self.plotPixel(context, x, y, color);
+                        self.plotPixel(context, x, y, color, listIndex);
                 });
             }
 

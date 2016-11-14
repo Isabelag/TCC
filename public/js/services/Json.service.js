@@ -19,7 +19,7 @@ angular.module('JsonService', [])
                         throw EMPTY_JSON;
                     }
                     _.each(json, function(lista){
-                        if(typeof(lista[0]) !== 'string'){
+                        if(typeof(lista[0]) !== 'string' || lista.length < 2){
                             throw  WRONG_FORMAT;
                             return;
                         }

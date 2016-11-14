@@ -3,8 +3,8 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	*  Public Variables
 	*/
 	$scope.canvasMatrixFromInput = JsonService.getJson();
-	$scope.canvasScaleMaxValue = 0;
-	$scope.canvasScaleMinValue = 0;
+	$scope.canvasScaleMaxValue = 'Max';
+	$scope.canvasScaleMinValue = 'Min';
 	$scope.clickOnDrawCanvas = false;
 	$scope.infoMessage = null;
 	
@@ -103,8 +103,9 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 		$scope.canvasScaleMinValue = canvasMaxMinMap.min;
 
 		var finalGradient = context.createLinearGradient(0, 0, 0, 255);
-		finalGradient.addColorStop(0, 'rgb(1,1,' + maxValue + ')');
-		finalGradient.addColorStop(1, 'rgb(1,1,' + minValue + ')');
+
+		finalGradient.addColorStop(0, 'rgb(' + maxValue + ',' + minValue + ','+ maxValue + ')');
+		finalGradient.addColorStop(1, 'rgb(' + maxValue + ',' + minValue + ','+ minValue + ')');
 
 		context.fillStyle = finalGradient;
 		context.fillRect(0, 0, 50, 500);

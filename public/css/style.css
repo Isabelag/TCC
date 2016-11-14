@@ -10,7 +10,9 @@ body { padding-top:30px; }
 .canvas{
 	width: 300px;
 	height: 300px;
-	background-color: #d8e7ff;
+	border: 1px solid #e7e7e7;
+	background-color: #f8f8f8;
+	border-radius: 4px;
 }
 
 .canvasButton{
@@ -18,5 +20,7 @@ body { padding-top:30px; }
 }
 
 .canvasScale{
-	border: 1px solid #d3d3d3;
+	border: 1px solid #e7e7e7;
+	border-radius: 4px;
+	background-color: #f8f8f8;
 }
