@@ -24,6 +24,7 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	$scope.drawCanvas = drawCanvas;
 	$scope.sortCanvas = sortCanvas;
 	$scope.getParagraphTitle = getParagraphTitle;
+	$scope.zoomValue = 1;
 
 	/*
 	*  Public Methods - Implementation
@@ -40,7 +41,12 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 		return 'paragraph' + element;
 	}
 
+	$scope.$watch('zoomValue', function() {
+        drawCanvas();
+    });
+
 	function drawCanvas(){
+		CanvasService.setZoomValue($scope.zoomValue);
 		var index = 0;
 		var pageLoad = document.getElementById('canvas0');
 		if(pageLoad){

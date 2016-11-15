@@ -24,3 +24,7 @@ body { padding-top:30px; }
 	border-radius: 4px;
 	background-color: #f8f8f8;
 }
+
+.p-r-0{
+	padding-right: 0px;
+}

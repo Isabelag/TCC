@@ -2,6 +2,7 @@ angular.module('CanvasService', [])
     .service('CanvasService', function () {
         var CANVAS_SIZE = 150;
         var canvasMaxMinMap = [];
+        var zoomValue = 1;
 
         var self = this;
 
@@ -13,6 +14,11 @@ angular.module('CanvasService', [])
         self.getStringNumber = getStringNumber;
         self.filterList = filterList;
         self.getCanvasMaxMinMap = getCanvasMaxMinMap;
+        self.setZoomValue = setZoomValue;
+
+        function setZoomValue(value){
+            zoomValue = value;
+        }
 
         function getCanvasMaxMinMap(listIndex){
             return canvasMaxMinMap[listIndex];
@@ -74,7 +80,7 @@ angular.module('CanvasService', [])
             var maxColor = self.calculateElementColor(canvasMaxMinMap[listIndex].max, listIndex);
             var minColor = self.calculateElementColor(canvasMaxMinMap[listIndex].min, listIndex);
             context.fillStyle = "rgb(" + maxColor + "," + minColor + "," + color + ")";
-            context.fillRect(x, y, 1, 1);
+            context.fillRect(x, y, zoomValue, zoomValue);
         }
 
         function getCoordinates(listIndex, canvasList, type, context){
@@ -97,29 +103,29 @@ angular.module('CanvasService', [])
                 }else{
                     filteredList = _.sortBy(filteredList);
                 }
-                
+
                 _.each(filteredList, function(current){
                         if(iteration !== 0){
                             if(iteration % 2 !== 0){
                                 if(addX){
                                     if(internalCont == 1 && iteration != 1){
-                                        x = y + 1;
+                                        x = y + zoomValue;
                                         internalCont++;
                                     }else if(internalCont < iteration){
-                                        x = x + 1;
+                                        x = x + zoomValue;
                                         internalCont++;
                                     }else if(internalCont === iteration){
-                                        x = x +1;
+                                        x = x + zoomValue;
                                         internalCont = 1;
                                         addX = false;
                                         addY = true;
                                     }
                                 }else{
                                     if(internalCont < iteration){
-                                        y = y + 1;
+                                        y = y + zoomValue;
                                         internalCont++;
                                     }else if(internalCont === iteration){
-                                        y = y + 1;
+                                        y = y + zoomValue;
                                         internalCont = 1;
                                         addX = true;
                                         addY = false;
@@ -128,23 +134,23 @@ angular.module('CanvasService', [])
                             }else{
                                 if(addX){
                                     if(internalCont == 1 && iteration != 1){
-                                        x = y - 1;
+                                        x = y - zoomValue;
                                         internalCont++;
                                     }else if(internalCont < iteration){
-                                        x = x - 1;
+                                        x = x - zoomValue;
                                         internalCont++;
                                     }else if(internalCont === iteration){
-                                        x = x - 1;
+                                        x = x - zoomValue;
                                         internalCont = 1;
                                         addX = false;
                                         addY = true;
                                     }
                                 }else{
                                     if(internalCont < iteration){
-                                        y = y - 1;
+                                        y = y - zoomValue;
                                         internalCont++;
                                     }else if(internalCont === iteration){
-                                        y = y - 1;
+                                        y = y - zoomValue;
                                         internalCont = 1;
                                         addX = true;
                                         addY = false;
@@ -170,6 +176,7 @@ angular.module('CanvasService', [])
             getMaxValue: self.getMaxValue,
             getMinValue: self.getMinValue,
             filterList: self.filterList,
-            getCanvasMaxMinMap: self.getCanvasMaxMinMap
+            getCanvasMaxMinMap: self.getCanvasMaxMinMap,
+            setZoomValue: self.setZoomValue
         };
 });
