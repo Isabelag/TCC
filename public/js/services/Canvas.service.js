@@ -51,7 +51,7 @@ angular.module('CanvasService', [])
                 stringSum += stringToBeConverted.charCodeAt(i);
             }
 
-            return _.toInteger(stringSum/stringLength);
+            return stringSum/stringLength;
         }
 
         function calculateElementColor(current, listIndex){
@@ -84,7 +84,7 @@ angular.module('CanvasService', [])
         }
 
         function getCoordinates(listIndex, canvasList, type, context){
-                var filteredList = self.filterList(canvasList);
+                var filteredList = canvasList;
                 var maxValue = self.getMaxValue(filteredList);
                 var minValue = self.getMinValue(filteredList);
                 var x = CANVAS_SIZE;
@@ -95,13 +95,16 @@ angular.module('CanvasService', [])
                 var iteration = 0;
 
                 if(type === 'create'){
+                    var filteredList = self.filterList(canvasList);
+                    var maxValue = self.getMaxValue(filteredList);
+                    var minValue = self.getMinValue(filteredList);
                     var canvas = document.getElementById('canvas' + listIndex);
                     canvas.width = CANVAS_SIZE*2;
                     canvas.height = CANVAS_SIZE*2;
                     context = canvas.getContext('2d');
                     canvasMaxMinMap[listIndex] = {max: maxValue, min: minValue};
                 }else{
-                    filteredList = _.sortBy(filteredList);
+                    //filteredList = _.sortBy(filteredList);
                 }
 
                 _.each(filteredList, function(current){

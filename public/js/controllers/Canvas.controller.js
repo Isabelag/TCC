@@ -14,6 +14,7 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	var canvasMatrix = $scope.canvasMatrixFromInput;
 	var INFO = 'Click on the canvas to sort it.';
 	var canClick = false;
+	var valuesOnly = JsonService.getValuesOnly();
 
 	/*
 	*  Public Methods
@@ -46,6 +47,7 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
     });
 
 	function drawCanvas(){
+		JsonService.getValuesOnly();
 		CanvasService.setZoomValue($scope.zoomValue);
 		var index = 0;
 		var pageLoad = document.getElementById('canvas0');
@@ -66,11 +68,46 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 		if(index >= 0 && canClick){
 			var canvas = document.getElementById('canvas'+index);
 			if(canvas){
-				var context = canvas.getContext("2d");
-				context.clearRect(0, 0, canvas.width, canvas.height);
-            	getCoordinates(index, canvasMatrix[index], 'update', context);
+				//var context = canvas.getContext("2d");
+				//context.clearRect(0, 0, canvas.width, canvas.height);
+            	//getCoordinates(index, canvasMatrix[index], 'update', context);
 
             	createScale(index);
+
+            	var a = _.unzip(valuesOnly);
+
+				a.sort(function(a, b) {
+				    if (a[index] === b[index]) {
+				        return 0;
+				    }
+				    else {
+				        return (a[index] < b[index]) ? -1 : 1;
+				    }
+				});
+
+				var b = [];
+				a = _.unzip(a);
+				
+				var i = 0;
+				var j = 0;
+				for(i = 0; i<a.length; i++){
+					b[i] = _.filter(a[i], function(e){
+						return e !== undefined;
+					})
+				}
+
+				valuesOnly = b;
+				var index = 0;
+				_.each(valuesOnly, function(canvasList){
+					var canvas = document.getElementById('canvas'+index);
+					var context = canvas.getContext("2d");
+					context.clearRect(0, 0, canvas.width, canvas.height);
+					
+					getCoordinates(index, valuesOnly[index], 'create1', context);
+					index++;
+				});
+
+
 			}
 		}
 	}
