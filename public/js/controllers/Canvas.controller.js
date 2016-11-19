@@ -55,45 +55,13 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 		if(index >= 0 && canClick){
 			var canvas = document.getElementById('canvas'+index);
 			if(canvas){
-
-            	var unzipedCanvas = _.unzip(matrixValuesOnly);
-            	var numericArray = [];
-            	
-            	var i = 0;
-            	var j = 0;
-            	for(i = 0; i< unzipedCanvas.length; i++){
-            		for(j = 0; j<unzipedCanvas[i].length; j++){
-            			if(!_.isNumber(unzipedCanvas[i][j])){
-            				unzipedCanvas[i][j] = CanvasService.getStringNumber(unzipedCanvas[i][j]);
-            			}
-            		}
-            	}
-
-				unzipedCanvas.sort(function(a, b) {
-				    if (a[index] === b[index]) {
-				        return 0;
-				    }else {
-				        return (a[index] < b[index]) ? -1 : 1;
-				    }
-				});
-
-				unzipedCanvas = _.unzip(unzipedCanvas);
-				var finalCanvasMarix = [];
-
-				var i = 0;
-				for(i = 0; i<unzipedCanvas.length; i++){
-					finalCanvasMarix[i] = _.filter(unzipedCanvas[i], function(element){
-						return element !== undefined;
-					})
-				}
-				
+				var finalCanvasMarix = CanvasService.sortCanvas(matrixValuesOnly, index);
 				var index = 0;
-				_.each(finalCanvasMarix, function(canvasList){
+				_.each(finalCanvasMarix, function(){
 					var canvas = document.getElementById('canvas'+index);
 					var context = canvas.getContext("2d");
 					context.clearRect(0, 0, canvas.width, canvas.height);
 					CanvasService.getCoordinates(index, finalCanvasMarix[index], 'update', context);
-
 					index++;
 				});
 			}

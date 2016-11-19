@@ -14,6 +14,32 @@ angular.module('CanvasService', [])
         self.filterList = filterList;
         self.getCanvasMaxMinMap = getCanvasMaxMinMap;
         self.setZoomValue = setZoomValue;
+        self.sortCanvas = sortCanvas;
+
+        function sortCanvas(matrixValuesOnly, index){
+            var unzipedCanvas = _.unzip(matrixValuesOnly);
+            var i = 0;
+            var j = 0;
+            
+            for(i = 0; i< unzipedCanvas.length; i++){
+                for(j = 0; j<unzipedCanvas[i].length; j++){
+                    if(!_.isNumber(unzipedCanvas[i][j])){
+                        unzipedCanvas[i][j] = self.getStringNumber(unzipedCanvas[i][j]);
+                    }
+                }
+            }
+
+            unzipedCanvas.sort(function(a, b) {
+                if (a[index] === b[index]) {
+                    return 0;
+                   }else {
+                    return (a[index] < b[index]) ? -1 : 1;
+                }
+            });
+
+            return _.unzip(unzipedCanvas);
+        }
+
 
         function setZoomValue(value){
             zoomValue = value;
@@ -164,6 +190,7 @@ angular.module('CanvasService', [])
             filterList: self.filterList,
             getCanvasMaxMinMap: self.getCanvasMaxMinMap,
             setZoomValue: self.setZoomValue,
-            getStringNumber: self.getStringNumber
+            getStringNumber: self.getStringNumber,
+            sortCanvas: self.sortCanvas
         };
 });
