@@ -3,7 +3,6 @@ angular.module('CanvasService', [])
         var CANVAS_SIZE = 150;
         var canvasMaxMinMap = [];
         var zoomValue = 1;
-
         var self = this;
 
         self.calculateElementColor = calculateElementColor;
@@ -44,42 +43,30 @@ angular.module('CanvasService', [])
 
         function getStringNumber(stringToBeConverted){
             var i = 0;
-            var stringLength = stringToBeConverted.length;
             var stringSum = 0;
 
-            for (i = 0; i < stringLength; i++) {
+            for (i = 0; i < stringToBeConverted.length; i++) {
                 stringSum += stringToBeConverted.charCodeAt(i);
             }
 
-            return stringSum/stringLength;
+            return stringSum;
         }
 
         function calculateElementColor(current, listIndex){
             var maxNumber = canvasMaxMinMap[listIndex].max;
-            var minNumber = canvasMaxMinMap[listIndex].min;
-            var color = 0;
-
-            if(maxNumber != minNumber){
-                if(!_.isNumber(maxNumber)){
+            
+            if(!_.isNumber(maxNumber)){
                 maxNumber = self.getStringNumber(maxNumber);
-                }
-                if(!_.isNumber(minNumber)){
-                    minNumber = self.getStringNumber(minNumber);
-                }
-                if(!_.isNumber(current)){
-                    current = self.getStringNumber(current);
-                }
-
-                color = _.round(150 * (current - minNumber)/(maxNumber - minNumber));    
             }
-
-            return color;
+            if(!_.isNumber(current)){
+                current = self.getStringNumber(current);
+            }
+                
+            return ((current * 100)/maxNumber);
         }
 
         function plotPixel(context, x, y, color, listIndex){
-            var maxColor = self.calculateElementColor(canvasMaxMinMap[listIndex].max, listIndex);
-            var minColor = self.calculateElementColor(canvasMaxMinMap[listIndex].min, listIndex);
-            context.fillStyle = "rgb(" + maxColor + "," + minColor + "," + color + ")";
+            context.fillStyle = "hsl(237,100%," + color + "%)";
             context.fillRect(x, y, zoomValue, zoomValue);
         }
 
@@ -176,6 +163,7 @@ angular.module('CanvasService', [])
             getMinValue: self.getMinValue,
             filterList: self.filterList,
             getCanvasMaxMinMap: self.getCanvasMaxMinMap,
-            setZoomValue: self.setZoomValue
+            setZoomValue: self.setZoomValue,
+            getStringNumber: self.getStringNumber
         };
 });
