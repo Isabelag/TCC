@@ -2,7 +2,7 @@ angular.module('CanvasService', [])
     .service('CanvasService', function () {
         var CANVAS_SIZE = 150;
         var canvasMaxMinMap = [];
-        var zoomValue = 5;
+        var zoomValue = 1;
 
         var self = this;
 

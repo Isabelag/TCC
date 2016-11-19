@@ -10,12 +10,18 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	$scope.infoMessage = null;
 */
 	var matrixValuesOnly = JsonService.getMatrixValuesOnly();
+	
 	$scope.headers = JsonService.getHeaders();
+	$scope.zoomValue = 1;
 
 	$scope.setCanvasId = setCanvasId;
 	$scope.setDivId = setDivId;
 	$scope.setParagraphId = setParagraphId;
 	$scope.drawCanvas = drawCanvas;
+
+	$scope.$watch('zoomValue', function() {
+        drawCanvas();
+    });
 
 	function setCanvasId(element){
 		return 'canvas' + element;
@@ -30,9 +36,10 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	}
 
 	function drawCanvas(){
-		var index = 0;
 		var pageLoad = document.getElementById('canvas0');
 		if(pageLoad){
+			CanvasService.setZoomValue($scope.zoomValue);
+			var index = 0;
 			_.each(matrixValuesOnly, function(current){
 				CanvasService.getCoordinates(index, matrixValuesOnly[index], 'create', null);
 				index++;
