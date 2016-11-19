@@ -11,7 +11,6 @@ angular.module('CanvasService', [])
         self.getMaxValue = getMaxValue;
         self.getMinValue = getMinValue;
         self.getStringNumber = getStringNumber;
-        self.filterList = filterList;
         self.getCanvasMaxMinMap = getCanvasMaxMinMap;
         self.setZoomValue = setZoomValue;
         self.sortCanvas = sortCanvas;
@@ -20,7 +19,7 @@ angular.module('CanvasService', [])
             var unzipedCanvas = _.unzip(matrixValuesOnly);
             var i = 0;
             var j = 0;
-            
+
             for(i = 0; i< unzipedCanvas.length; i++){
                 for(j = 0; j<unzipedCanvas[i].length; j++){
                     if(!_.isNumber(unzipedCanvas[i][j])){
@@ -47,16 +46,6 @@ angular.module('CanvasService', [])
 
         function getCanvasMaxMinMap(listIndex){
             return canvasMaxMinMap[listIndex];
-        }
-
-        function filterList(listToBeFiltered){
-            var filteredList = [];
-                var i = 1;
-                var j = 0;
-                for(i = 1, j = 0; i<listToBeFiltered.length; i++, j++){
-                    filteredList[j] = listToBeFiltered[i];
-                }
-            return filteredList;
         }
 
         function getMaxValue(filteredList){
@@ -183,11 +172,9 @@ angular.module('CanvasService', [])
 
         return {
             calculateElementColor: self.calculateElementColor,
-            plotPixel: self.plotPixel,
             getCoordinates: self.getCoordinates,
             getMaxValue: self.getMaxValue,
             getMinValue: self.getMinValue,
-            filterList: self.filterList,
             getCanvasMaxMinMap: self.getCanvasMaxMinMap,
             setZoomValue: self.setZoomValue,
             getStringNumber: self.getStringNumber,

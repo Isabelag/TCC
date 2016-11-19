@@ -1,3 +1,7 @@
+<div class="alert alert-info" role="alert" ng-if="canClick">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span ng-bind="infoMessage"></span>
+</div>
 <div class="col-md-12 canvasButton">
 	<div class="col-md-7 canvasButton">
 		<button class="btn btn-default" ng-click="drawCanvas()">Click here to plot the pixels.</button>	
@@ -14,4 +18,9 @@
 		<p id="{{setParagraphId($index)}}" ng-bind="headers[$index]"></p>
 		<canvas class="canvas" id="{{setCanvasId($index)}}"></canvas>
 	</div>
+</div>
+<div class="col-md-1 text-center">
+	<p ng-bind="canvasScaleMaxValue"></p>
+	<canvas class="canvasScale" id="canvasScale" width="50" height="500"></canvas>
+	<p ng-bind="canvasScaleMinValue"><p>
 </div>
