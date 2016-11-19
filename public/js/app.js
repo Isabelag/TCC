@@ -1,1 +1,1 @@
-angular.module('sampleApp', ['ngRoute', 'appRoutes', 'CanvasCtrl', 'JsonCtrl', 'JsonService', 'CanvasService']);
+angular.module('sampleApp', ['ngRoute', 'appRoutes', 'CanvasCtrl', 'JsonCtrl', 'JsonService', 'CanvasService', 'JsonAdpter']);

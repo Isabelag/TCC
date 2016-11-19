@@ -1,18 +1,6 @@
-<div class="alert alert-danger" role="alert" ng-if="error">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span ng-bind="errorMessage"></span>
-</div>
-<div class="alert alert-warning" role="alert" ng-if="error">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span ng-bind="expectedFormat"></span>
-</div>
-<div class="alert alert-success" role="alert" ng-if="!error && sucessMessage">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span ng-bind="sucessMessage"></span>
-</div>
 <form class="col-md-12">
 	<div class="form-group">
-		<textarea ng-model="json" type="text" class="form-control" rows="20" placeholder="{{expectedFormat}}"></textarea>
+		<textarea ng-model="jsonFromInput" type="text" class="form-control" rows="20"></textarea>
 	</div>
 	<button ng-click="setJson()" class="btn btn-primary">Upload Json</button>	
 </form>	
