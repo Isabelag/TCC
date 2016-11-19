@@ -8,7 +8,6 @@ angular.module('JsonAdpter', [])
         self.getHeaders = getHeaders;
 
         function convertJsonObjectToValuesMatrix(jsonObjectFromInput){
-            jsonObjectFromInput = JSON.parse(jsonObjectFromInput);
             jsonObjectFromInput = _.unzip(jsonObjectFromInput);
             var jsonConverted = [];
             var line = 0;

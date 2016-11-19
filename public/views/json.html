@@ -1,3 +1,7 @@
+<div ng-class="errorClass" role="alert" ng-if="error">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span ng-bind="errorMessage"></span>
+</div>
 <form class="col-md-12">
 	<div class="form-group">
 		<textarea ng-model="jsonFromInput" type="text" class="form-control" rows="20"></textarea>

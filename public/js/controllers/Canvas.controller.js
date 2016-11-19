@@ -2,34 +2,21 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	/*
 	*  Public Variables
 	*/
+	/*
 	$scope.canvasMatrixFromInput = JsonService.getJson();
 	$scope.canvasScaleMaxValue = 'Max';
 	$scope.canvasScaleMinValue = 'Min';
 	$scope.clickOnDrawCanvas = false;
 	$scope.infoMessage = null;
-	
-	/*
-	*  Private Variables
-	*/
-	var canvasMatrix = $scope.canvasMatrixFromInput;
-	var INFO = 'Click on the canvas to sort it.';
-	var canClick = false;
-	var valuesOnly = JsonService.getValuesOnly();
+*/
 
-	/*
-	*  Public Methods
-	*/
+	$scope.matrixValuesOnly = JsonService.getMatrixValuesOnly();
+	$scope.headers = JsonService.getHeaders();
+
 	$scope.setCanvasId = setCanvasId;
 	$scope.setDivId = setDivId;
 	$scope.setParagraphId = setParagraphId;
-	$scope.drawCanvas = drawCanvas;
-	$scope.sortCanvas = sortCanvas;
-	$scope.getParagraphTitle = getParagraphTitle;
-	$scope.zoomValue = 1;
 
-	/*
-	*  Public Methods - Implementation
-	*/
 	function setCanvasId(element){
 		return 'canvas' + element;
 	}
@@ -41,6 +28,26 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	function setParagraphId(element){
 		return 'paragraph' + element;
 	}
+
+	
+	/*
+	*  Private Variables
+	
+	var canvasMatrix = $scope.canvasMatrixFromInput;
+	var INFO = 'Click on the canvas to sort it.';
+	var canClick = false;
+	var valuesOnly = JsonService.getValuesOnly();
+
+	
+	
+	$scope.drawCanvas = drawCanvas;
+	$scope.sortCanvas = sortCanvas;
+	
+	$scope.zoomValue = 1;
+
+	 Public Methods - Implementation
+	
+	
 
 	$scope.$watch('zoomValue', function() {
         drawCanvas();
@@ -101,13 +108,9 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 		}
 	}
 
-	function getParagraphTitle(index){
-		return canvasMatrix[index][0];
-	}
+	
 
-	/*
-	*  Private Methods - Implementation
-	*/
+	
 	function getCoordinates(index, canvasList, type, context){
 		return CanvasService.getCoordinates(index, canvasList, type, context);
 	}
@@ -141,4 +144,5 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 		context.fillStyle = finalGradient;
 		context.fillRect(0, 0, 50, 500);
 	}
+	*/
 });
