@@ -2,7 +2,7 @@ angular.module('CanvasService', [])
     .service('CanvasService', function () {
         var CANVAS_SIZE = 150;
         var canvasMaxMinMap = [];
-        var zoomValue = 1;
+        var zoomValue = 5;
 
         var self = this;
 
@@ -83,28 +83,24 @@ angular.module('CanvasService', [])
             context.fillRect(x, y, zoomValue, zoomValue);
         }
 
-        function getCoordinates(listIndex, canvasList, type, context){
-                var filteredList = canvasList;
-                var maxValue = self.getMaxValue(filteredList);
-                var minValue = self.getMinValue(filteredList);
+        function getCoordinates(listIndex, filteredList, type, context){
+                var maxValue = _.max(filteredList);
+                var minValue = _.min(filteredList);
+
                 var x = CANVAS_SIZE;
                 var y = CANVAS_SIZE;
+
                 var addX = true;
                 var addY = false;
                 var internalCont = 1;
                 var iteration = 0;
 
                 if(type === 'create'){
-                    var filteredList = self.filterList(canvasList);
-                    var maxValue = self.getMaxValue(filteredList);
-                    var minValue = self.getMinValue(filteredList);
                     var canvas = document.getElementById('canvas' + listIndex);
                     canvas.width = CANVAS_SIZE*2;
                     canvas.height = CANVAS_SIZE*2;
                     context = canvas.getContext('2d');
                     canvasMaxMinMap[listIndex] = {max: maxValue, min: minValue};
-                }else{
-                    //filteredList = _.sortBy(filteredList);
                 }
 
                 _.each(filteredList, function(current){

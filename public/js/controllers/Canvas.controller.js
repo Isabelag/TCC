@@ -9,13 +9,13 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	$scope.clickOnDrawCanvas = false;
 	$scope.infoMessage = null;
 */
-
-	$scope.matrixValuesOnly = JsonService.getMatrixValuesOnly();
+	var matrixValuesOnly = JsonService.getMatrixValuesOnly();
 	$scope.headers = JsonService.getHeaders();
 
 	$scope.setCanvasId = setCanvasId;
 	$scope.setDivId = setDivId;
 	$scope.setParagraphId = setParagraphId;
+	$scope.drawCanvas = drawCanvas;
 
 	function setCanvasId(element){
 		return 'canvas' + element;
@@ -28,6 +28,18 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	function setParagraphId(element){
 		return 'paragraph' + element;
 	}
+
+	function drawCanvas(){
+		var index = 0;
+		var pageLoad = document.getElementById('canvas0');
+		if(pageLoad){
+			_.each(matrixValuesOnly, function(current){
+				CanvasService.getCoordinates(index, matrixValuesOnly[index], 'create', null);
+				index++;
+			});
+		}
+	}
+
 
 	
 	/*
