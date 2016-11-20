@@ -2,20 +2,19 @@ angular.module('JsonService', [])
     .service('JsonService', function (JsonAdapter, $http) {
         self = this;
 
-        var matrixValuesOnly = [];
         var headers = [];
-
-        self.setJson = setJson;
-        self.getMatrixValuesOnly = getMatrixValuesOnly;
+        var matrixValuesOnly = [];
+        
         self.getHeaders = getHeaders;
-        self.readFile = readFile;
+        self.getMatrixValuesOnly = getMatrixValuesOnly;
+        self.setJson = setJson;
 
-        function readFile(fileNameFromInput){
-            $http.get('/' + fileNameFromInput).success(function(data) {
-                fileNameFromInput = data;
-                matrixValuesOnly = JsonAdapter.convertJsonObjectToValuesMatrix(fileNameFromInput);
-                headers = JsonAdapter.getHeaders();
-            });
+        function getHeaders(){
+            return headers;
+        }
+
+        function getMatrixValuesOnly(){
+            return matrixValuesOnly;
         }
 
         function setJson(jsonFromInput){
@@ -27,19 +26,10 @@ angular.module('JsonService', [])
                 throw exception;
             }
         }
-
-        function getMatrixValuesOnly(){
-            return matrixValuesOnly;
-        }
-
-        function getHeaders(){
-            return headers;
-        }
         
         return {
-            setJson: self.setJson,
-            getMatrixValuesOnly: self.getMatrixValuesOnly,
             getHeaders: self.getHeaders,
-            readFile: self.readFile
+            getMatrixValuesOnly: self.getMatrixValuesOnly,
+            setJson: self.setJson
         };
-    });
+});

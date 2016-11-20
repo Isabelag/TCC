@@ -2,16 +2,16 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 	var matrixValuesOnly = JsonService.getMatrixValuesOnly();
 	
 	$scope.canClick = false;
-	$scope.infoMessage = 'Click in a canvas to sort.'
 	$scope.canvasScaleMaxValue = 'Max';
 	$scope.canvasScaleMinValue = 'Min';
 	$scope.headers = JsonService.getHeaders();
+	$scope.infoMessage = 'Click in a canvas to sort.'
 	$scope.zoomValue = 1;
 
+	$scope.drawCanvas = drawCanvas;
 	$scope.setCanvasId = setCanvasId;
 	$scope.setDivId = setDivId;
 	$scope.setParagraphId = setParagraphId;
-	$scope.drawCanvas = drawCanvas;
 	$scope.sortCanvas = sortCanvas;
 	
 	$scope.$watch('zoomValue', function() {

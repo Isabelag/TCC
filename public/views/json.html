@@ -5,14 +5,13 @@
 <form class="col-md-12 p-b-20 text-right">
 	<div class="form-group">
 		<div class="p-l-0 col-md-10">
-			<input type="file" ng-model="fileNameFromInput" class="form-control">
+			<input type="file" id="jsonFile" class="form-control">
 		</div>
 		<div class="col-md-2">
 			<button ng-click="readFile()" class="btn btn-primary">Upload Json</button>
 		</div>
 	</div>
 </form>
-
 <form class="col-md-12">
 	<div class="form-group">
 		<textarea ng-model="jsonFromInput" type="text" class="form-control" rows="20" autofocus="true"></textarea>

@@ -21,7 +21,6 @@ angular.module('JsonAdpter', [])
                     jsonConvertedLine++;
                 }
             }
-
             return jsonConverted;
         }
 
@@ -33,4 +32,4 @@ angular.module('JsonAdpter', [])
             convertJsonObjectToValuesMatrix : self.convertJsonObjectToValuesMatrix,
             getHeaders: self.getHeaders
         };
-    });
+});

@@ -1,17 +1,18 @@
 angular.module('CanvasService', [])
     .service('CanvasService', function () {
+        var self = this;
+
         var CANVAS_SIZE = 150;
         var canvasMaxMinMap = [];
         var zoomValue = 1;
-        var self = this;
-
+        
         self.calculateElementColor = calculateElementColor;
-        self.plotPixel = plotPixel;
+        self.getCanvasMaxMinMap = getCanvasMaxMinMap;
         self.getCoordinates = getCoordinates;
         self.getMaxValue = getMaxValue;
         self.getMinValue = getMinValue;
         self.getStringNumber = getStringNumber;
-        self.getCanvasMaxMinMap = getCanvasMaxMinMap;
+        self.plotPixel = plotPixel;
         self.setZoomValue = setZoomValue;
         self.sortCanvas = sortCanvas;
 
@@ -35,10 +36,8 @@ angular.module('CanvasService', [])
                     return (a[index] < b[index]) ? -1 : 1;
                 }
             });
-
             return _.unzip(unzipedCanvas);
         }
-
 
         function setZoomValue(value){
             zoomValue = value;
@@ -172,12 +171,12 @@ angular.module('CanvasService', [])
 
         return {
             calculateElementColor: self.calculateElementColor,
+            getCanvasMaxMinMap: self.getCanvasMaxMinMap,
             getCoordinates: self.getCoordinates,
             getMaxValue: self.getMaxValue,
             getMinValue: self.getMinValue,
-            getCanvasMaxMinMap: self.getCanvasMaxMinMap,
-            setZoomValue: self.setZoomValue,
             getStringNumber: self.getStringNumber,
+            setZoomValue: self.setZoomValue,
             sortCanvas: self.sortCanvas
         };
 });
