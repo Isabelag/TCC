@@ -79,7 +79,7 @@ angular.module('CanvasService', [])
             return ((current * 100)/maxNumber);
         }
 
-        function plotPixel(context, x, y, color, listIndex){
+        function plotPixel(context, x, y, color){
             context.fillStyle = "hsl(237,100%," + color + "%)";
             context.fillRect(x, y, zoomValue, zoomValue);
         }
@@ -165,7 +165,7 @@ angular.module('CanvasService', [])
                         }
 
                         var color = self.calculateElementColor(current, listIndex);
-                        self.plotPixel(context, x, y, color, listIndex);
+                        self.plotPixel(context, x, y, color);
                 });
             }
 
