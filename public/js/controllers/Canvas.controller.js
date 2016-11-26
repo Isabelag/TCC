@@ -78,12 +78,6 @@ angular.module('CanvasCtrl', []).controller('CanvasController', function($scope,
 		$scope.canvasScaleMaxValue = canvasMaxMinMap.max;
 		$scope.canvasScaleMinValue = canvasMaxMinMap.min;
 
-		var finalGradient = context.createLinearGradient(0, 0, 0, 255);
-
-		finalGradient.addColorStop(0, 'hsl(237,100%,' + maxValue + '%)');
-		finalGradient.addColorStop(1, 'hsl(237,100%,' + minValue + '%)');
-
-		context.fillStyle = finalGradient;
-		context.fillRect(0, 0, 50, 500);
+		CanvasService.createScale(context, maxValue, minValue);
 	}
 });

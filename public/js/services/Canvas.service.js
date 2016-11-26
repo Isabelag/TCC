@@ -7,6 +7,7 @@ angular.module('CanvasService', [])
         var zoomValue = 1;
         
         self.calculateElementColor = calculateElementColor;
+        self.createScale = createScale;
         self.getCanvasMaxMinMap = getCanvasMaxMinMap;
         self.getCoordinates = getCoordinates;
         self.getMaxValue = getMaxValue;
@@ -15,6 +16,17 @@ angular.module('CanvasService', [])
         self.plotPixel = plotPixel;
         self.setZoomValue = setZoomValue;
         self.sortCanvas = sortCanvas;
+
+
+        function createScale(context, maxValue, minValue){
+            var finalGradient = context.createLinearGradient(0, 0, 0, 255);
+
+            finalGradient.addColorStop(0, 'hsl(237,100%,' + maxValue + '%)');
+            finalGradient.addColorStop(1, 'hsl(237,100%,' + minValue + '%)');
+
+            context.fillStyle = finalGradient;
+            context.fillRect(0, 0, 50, 500);
+        }
 
         function sortCanvas(matrixValuesOnly, index){
             var unzipedCanvas = _.unzip(matrixValuesOnly);
@@ -171,6 +183,7 @@ angular.module('CanvasService', [])
 
         return {
             calculateElementColor: self.calculateElementColor,
+            createScale: self.createScale,
             getCanvasMaxMinMap: self.getCanvasMaxMinMap,
             getCoordinates: self.getCoordinates,
             getMaxValue: self.getMaxValue,
